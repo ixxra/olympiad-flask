@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-        <title>My Store Server</title>
+        <title>Olympic Hub</title>
         <meta name="description" content="" />
         <meta name="author" content="" />
         <meta name="viewport" content="width=device-width; initial-scale=1.0" />
@@ -19,13 +19,13 @@
     </head>
 <body>
 <div class="navbar navbar-inverse navbar-fixed-top">
-	<div class="navbar-inner"><div class="container">
-		<a class="brand" href="/">Store</a>
+    <div class="navbar-inner"><div class="container">
+            <a class="brand" href="/"><img src="/static/img/Adventure_Time_Logo_Small.jpg" alt="Adventure Time"></img></a>
     <nav>
     {% set navigation_bar = [
     ('/', 'index', 'Home'),
     ('/olympiads', 'olympiads', 'Olympiads'),
-    ('/todo', 'todo', 'TODO'),
+    ('/me', 'user', 'User'),
     ('/contact', 'contact', 'Contact')
 ] -%}
 {% set active_page = active_page|default('index') -%}

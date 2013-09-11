@@ -3,6 +3,8 @@ from models import User, Olympiad
 from flask import render_template, request, url_for, flash, redirect
 from flask.views import MethodView
 from flask.ext.login import login_required, login_user, logout_user, current_user
+import wiki
+from flask import Markup
 #from auth import get_user
 
 
@@ -10,10 +12,12 @@ from flask.ext.login import login_required, login_user, logout_user, current_use
 @app.route('/index')
 def index():
     user = current_user
+    title, html = wiki.content('International_Science_Olympiad')
+
     if user.is_anonymous():
-        return render_template('layout.djhtml')
+        return render_template('home.html', main_content=Markup(html))
     else:
-        return render_template('layout.djhtml', user=user)
+        return render_template('home.html', user=user, main_content=Markup(html))
 
 
 @app.route('/logout')
