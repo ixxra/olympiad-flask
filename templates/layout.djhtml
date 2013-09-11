@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <title>My Store Server</title>
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <meta name="viewport" content="width=device-width; initial-scale=1.0" />
+
+        <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
+        <style type="text/css">
+        	body {
+        		padding-top: 60px;
+        		padding-bottom: 40px;
+        	}
+        </style>
+        <link rel="stylesheet" href="/static/css/bootstrap-responsive.min.css" />
+    </head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top">
+	<div class="navbar-inner"><div class="container">
+		<a class="brand" href="/">Store</a>
+    <nav>
+    {% set navigation_bar = [
+    ('/', 'index', 'Home'),
+    ('/stock', 'stock', 'Stock'),
+    ('/cashier', 'cashier', 'Cashier'),
+    ('/contact', 'contact', 'Contact')
+] -%}
+{% set active_page = active_page|default('index') -%}
+{% set active_url = active_url|default('/') -%}
+    <ul class="nav">
+    {% for href, id, caption in navigation_bar %}
+        <li {% if id == active_page %} class="active"{% endif %}>
+        	{% if id == 'login' %}
+                {% if not session.logged_in %}
+                    <a href="{{ url_for('login') }}">{{ caption |e }}</a>
+                {% else %}
+                    <a href="{{ url_for('logout') }}">{{ Logout | e }}</a>
+                {% endif %}      	
+        	{% else %}
+        	   <a href="{{ href|e }}">{{ caption|e }}</a>
+        	{% endif %}
+        </li>
+    {% endfor %}
+    </ul>
+    </nav>
+    {% if user is defined %}
+    <span class="pull-right"><a href="/user" class="navbar-link"> {{ user.name }}</a> <a  class="navbar-link" href="/logout?redirect_url={{ active_url }}">(LOGOUT)</a></span>
+    {% else %}
+    <nav>
+    <form action="/login" class="navbar-form pull-right" method="post">
+        <input class="span2" type="text" placeholder="Username"  name="username">
+        <input class="span2" type="password" placeholder="Password" name="password">
+        <button type="submit" class="btn">Sign in</button>
+        <input type="hidden" name="redirect_url" value="{{ active_url }}" />
+    </form>
+    </nav>
+    {% endif %}
+    </div></div>
+</div>
+<div class="container">
+    {% block main_content %}{% endblock %}
+</div>
+    <footer>
+        <p>
+            &copy; Copyright  by <a href="mailto:garciamx@gmail.com"> Rene Garcia</a>
+        </p>
+    </footer>
+</body>
+</html>

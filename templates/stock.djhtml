@@ -1,0 +1,35 @@
+{% extends "layout.djhtml" %}
+{% set active_page = "stock"  %}
+{% set active_url = "/stock" %}
+{% block main_content %}
+<section>
+    <header><h2>Stock</h2></header>
+    <table class="table-condensed table-striped">
+        <thead>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Tax</th>
+        </thead>
+        {% for product in products %}
+            <tr>
+            	<td>
+            		{{ product.name }}
+            	</td>
+            	<td>
+            		{{ product.price }}
+            	</td>
+            	<td>
+            		{% if product.taxable %}
+            	       <input type="checkbox" disabled checked />
+            	    {% else %}
+            	       <input type="checkbox" disabled />
+            	    {% endif %}
+            	</td>
+            	<td>
+            		<a href="/admin/stock/edit/{{product.id}}" class="btn primary">Edit</a>
+            	</td>
+            </tr>
+        {% endfor %}
+    </table>
+</section>
+{% endblock %}

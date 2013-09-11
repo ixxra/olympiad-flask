@@ -1,0 +1,18 @@
+{% extends "admin/layout.djhtml" %}
+{% block main_content %}
+<section>
+	<header><h2>Stock</h2></header>
+	<article>
+		<ul>
+			<li><a href="/admin/stock/add">Add</a></li>
+		</ul>
+	</article>
+	<table>
+		<thead>
+			<th>Name</th>
+			<th>Price</th>
+			<th>Tax</th>
+		</thead>
+	</table>
+</section>
+{% endblock %}

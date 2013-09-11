@@ -1,0 +1,9 @@
+{% extends "layout.djhtml" %}
+{% set active_page = "cashier"  %}
+{% set active_url = "/cashier" %}
+{% block main_content %}
+<section>
+    <header><h2>Cashier</h2></header>
+    
+</section>
+{% endblock %}
