@@ -8,6 +8,7 @@ now = datetime.now
 
 class User(db.Document):
     created_at = db.DateTimeField(default=now(), required=True)
+    nickname = db.StringField(max_length=255, required=True)
     name = db.StringField(max_length=255, required=True)
     surname = db.StringField(max_length=255, required=True)
     dob = db.DateTimeField()

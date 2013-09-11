@@ -3,7 +3,7 @@ from models import User, Olympiad
 from flask import render_template, request, url_for, flash, redirect
 from flask.views import MethodView
 from flask.ext.login import login_required, login_user, logout_user, current_user
-from auth import get_user
+#from auth import get_user
 
 
 @app.route('/')
@@ -34,15 +34,15 @@ def cashier():
     return render_template('cashier.djhtml', user=user)
 
 
-class Stock(MethodView):
+class Olympiads(MethodView):
     def get(self):
         user = current_user
-        products = Product.objects.all()
+        olympiads = Olympiad.objects.all()
 
         if user.is_anonymous():
-            return render_template('stock.djhtml', products=products)
+            return render_template('olympiads.html', olympiads=olympiads)
         else:
-            return render_template('stock.djhtml', products=products, user=user)
+            return render_template('olympiads.html', olympiads=olympiads, user=user)
     
     
 class Login(MethodView):
@@ -61,5 +61,5 @@ class Login(MethodView):
         return render_template('signin.html')
         
 
-app.add_url_rule('/stock/', view_func=Stock.as_view('stock'))
+app.add_url_rule('/olympiads/', view_func=Olympiads.as_view('olympiads'))
 app.add_url_rule('/login', view_func=Login.as_view('login'))

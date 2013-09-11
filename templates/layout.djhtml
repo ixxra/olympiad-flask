@@ -24,8 +24,8 @@
     <nav>
     {% set navigation_bar = [
     ('/', 'index', 'Home'),
-    ('/stock', 'stock', 'Stock'),
-    ('/cashier', 'cashier', 'Cashier'),
+    ('/olympiads', 'olympiads', 'Olympiads'),
+    ('/todo', 'todo', 'TODO'),
     ('/contact', 'contact', 'Contact')
 ] -%}
 {% set active_page = active_page|default('index') -%}
