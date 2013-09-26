@@ -5,7 +5,7 @@ from flask.views import MethodView
 from flask.ext.login import login_required, login_user, logout_user, current_user
 import wiki
 from flask import Markup
-#from auth import get_user
+from auth import get_user
 
 
 @app.route('/')

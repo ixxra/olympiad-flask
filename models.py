@@ -17,10 +17,23 @@ class User(db.Document):
     password_hash = db.StringField(max_length=255, required=True)
     google_login = None
 
+    def get(userid):
+        try:
+            u = User.objects.get(id=userid)
+        finally:
+            u = None
+        return u
+
+
+class OlympiadCategory(db.Document):
+    created_at = db.DateTimeField(default=now(), required=True)
+    name = db.StringField(max_length=255, required=True)
+    logo = None
+ 
 
 class Olympiad(db.Document):
     created_at = db.DateTimeField(default=now(), required=True)
-    category = db.StringField(max_length=255, required=True)
+    category = db.ReferenceField(OlympiadCategory, required=True)
     name = db.StringField(max_length=255, required=True)
     city = None
     logo = None
@@ -33,3 +46,4 @@ class Olympiad(db.Document):
 class Admin(db.Document):
     created_at = db.DateTimeField(default=now(), required=True)
     user = db.ReferenceField(User)        
+
