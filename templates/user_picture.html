@@ -1,0 +1,13 @@
+{% extends "layout.djhtml" %}
+{% set active_page = "user"  %}
+{% set active_url = "/me" %}
+{% block main_content %}
+<section>
+    <header><h2>Select a new image profile</h2></header>
+<form action="/me/picture/upload" method="post" enctype="multipart/form-data">
+    <label for="image">Select your new image</label>
+    <input type="file" accept="image/*" name="image" id="image">
+    <input type="submit" value="Submit">
+</form>
+</section>
+{% endblock %}
