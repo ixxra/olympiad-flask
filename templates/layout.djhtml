@@ -47,7 +47,7 @@
     </ul>
     </nav>
     {% if user is defined %}
-    <span class="pull-right"><a href="/user" class="navbar-link"> {{ user.name }}</a> <a  class="navbar-link" href="/logout?redirect_url={{ active_url }}">(LOGOUT)</a></span>
+    <span class="pull-right"><img src="/me/picture/thumbnail"> <a href="/me" class="navbar-link"> {{ user.name }}</a> <a  class="navbar-link" href="/logout?redirect_url={{ active_url }}">(LOGOUT)</a></span>
     {% else %}
     <nav>
     <form action="/login" class="navbar-form pull-right" method="post">

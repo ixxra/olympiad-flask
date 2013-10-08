@@ -1,9 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-
-</body>
-</html>
+{% extends "layout.djhtml" %}
+{% block main_content %}
+<section>
+<h1>Categories</h1>
+<table>
+{% if categories is defined %}
+    {% for category in categories %}
+        <tr><a href="/categories/"{{ category.id }}>{{ category.name  }}</a></tr>
+    {% endfor %}
+{% endif %}
+</table>
+</section>
+{% endblock %}

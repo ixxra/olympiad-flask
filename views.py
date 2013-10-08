@@ -1,11 +1,12 @@
 from server import app
-from models import Olympiad
-from flask import render_template, request, url_for, redirect, abort, send_file
+from models import Olympiad, OlympiadCategory
+from flask import render_template, request, url_for, redirect, abort, send_file, flash
 from flask.views import MethodView
 from flask.ext.login import login_required, login_user, logout_user, current_user
 import wiki
 from flask import Markup
 from auth import get_user
+from mongoengine.fields import GridFSError
 
 
 @app.route('/')
@@ -31,13 +32,15 @@ def logout():
 
 
 @app.route('/me')
+@login_required
 def me():
-    user = current_user
+    #user = current_user
 
-    if user.is_anonymous():
-        return redirect(url_for('login'))
+    #if user.is_anonymous():
+    #    return redirect(url_for('login'))
 
-    return render_template('me.html', user=user)
+    #return render_template('me.html', user=user)
+    return render_template('me.html', user=current_user)
 
 
 @app.route('/me/picture/upload', methods=['GET', 'POST'])
@@ -51,8 +54,15 @@ def picture():
         return render_template('user_picture.html', user=user)
     else:
         file = request.files['image']
-        user.photo.put(file, content_type=file.content_type)
+        #images.add(user, file.stream, file.content_type)
+        #return redirect(url_for('index'))
+        try:
+            user.photo.put(file, content_type=file.content_type)
+        except GridFSError:
+            file.seek(0)
+            user.photo.replace(file, content_type=file.content_type)
         user.save()
+        return redirect(url_for('index'))
 
 
 @app.route('/me/picture')
@@ -63,6 +73,23 @@ def user_photo():
         abort(404)
 
     return send_file(user.photo, mimetype=user.photo.content_type)
+
+
+@app.route('/me/picture/thumbnail')
+def user_thumbnail():
+    user = current_user
+
+    if user.is_anonymous():
+        abort(404)
+
+    #TODO: Check content_type validity
+    return send_file(user.photo.thumbnail, mimetype=user.photo.content_type)
+
+
+@app.route('/olympiads/categories')
+def categories():
+    _categories = OlympiadCategory.objects
+    return render_template('categories.html', categories=_categories)
 
 
 class Olympiads(MethodView):
@@ -89,7 +116,9 @@ class Login(MethodView):
         if user is not None:
             remember = 'remember-me' in request.form
             if login_user(user, remember=remember):
-                return redirect(url_for('index'))
+                #flash(request.args['next'])
+                return redirect(request.args['next'])
+                #return redirect(url_for('index'))
 
         return render_template('signin.html')
 

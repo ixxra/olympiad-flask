@@ -1,17 +1,26 @@
 from flask import request, redirect, url_for, render_template
-from flask.views import MethodView
-from flask.ext.mongoengine.wtf import model_form
-#from flask_mongoengine.wtf import model_form
+#from flask.views import MethodView
+#from flask.ext.mongoengine.wtf import model_form
 from server import app
-from auth import requires_auth
-#from models import Product
+from flask.ext.login import login_required
+from auth import permission_required
 
 
-@requires_auth
-@app.route('/admin', methods=['GET', 'POST'])
-def admin():
-    return render_template('admin/layout.djhtml')
+#@requires_auth
+#@app.route('/admin', methods=['GET', 'POST'])
+#def admin():
+#    return render_template('admin/layout.djhtml')
 
+@app.route('/admin/categories')
+def admin_categories():
+    return render_template('admin/categories.djhtml')
+
+
+@permission_required
+@login_required
+@app.route('/admin/categories/edit')
+def admin_categories_edit():
+    return 'Categories editor'
 
 #class ManageStock(MethodView):
 #    decorators = [requires_auth]

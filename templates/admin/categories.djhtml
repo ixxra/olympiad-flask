@@ -1,0 +1,11 @@
+{% extends "admin/layout.djhtml" %}
+
+{% block main_content %}
+    <section>
+<h1>Categories Editor</h1>
+<h2>Categories List</h2>
+<table>
+<th>Id</th> <th>Name</th> <th>Creation Time</th>
+</table>
+    </section>
+{% endblock %}

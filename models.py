@@ -16,7 +16,8 @@ class User(db.Document, UserMixin):
     medals = None
     password_hash = db.StringField(max_length=255, required=True)
     google_login = None
-    photo = db.FileField()
+    photo = db.ImageField(thumbnail_size=(32, 32, True))
+    #thumbnail = db.FileField()
 
     def get(userid):
         try:
@@ -36,8 +37,7 @@ class City(db.Document):
     created_at = db.DateTimeField(default=now(), required=True)
     name = db.StringField(max_length=255, required=True)
     country = db.StringField(max_length=255, required=True)
-    lat = db.NumericField()
-    long = db.NumericField()
+    position = db.GeoPointField()
 
 
 class Olympiad(db.Document):
@@ -49,7 +49,7 @@ class Olympiad(db.Document):
     start_date = db.DateTimeField(required=True)
     end_date = db.DateTimeField(required=True)
     file = None
-    cotestants = [db.ReferenceField(User)]
+    contestants = [db.ReferenceField(User)]
 
 
 class Admin(db.Document):
