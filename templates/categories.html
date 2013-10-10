@@ -5,7 +5,7 @@
 <table>
 {% if categories is defined %}
     {% for category in categories %}
-        <tr><a href="/categories/"{{ category.id }}>{{ category.name  }}</a></tr>
+        <tr><td><a href="/categories/{{ category.id }}">{{ category.name  }}</a></td></tr>
     {% endfor %}
 {% endif %}
 </table>

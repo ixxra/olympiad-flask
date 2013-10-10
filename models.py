@@ -30,6 +30,8 @@ class User(db.Document, UserMixin):
 class OlympiadCategory(db.Document):
     created_at = db.DateTimeField(default=now(), required=True)
     name = db.StringField(max_length=255, required=True)
+    abbreviation = db.StringField(max_length=10)
+    url = db.URLField()
     logo = None
 
 

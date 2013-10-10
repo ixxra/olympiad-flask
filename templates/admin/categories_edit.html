@@ -1,0 +1,15 @@
+{% extends "admin/layout.djhtml" %}
+{% import "_forms.html" as forms %}
+
+{% block main_content %}
+    <section>
+<h1>Edit Category</h1>
+    <form action="/admin/categories?action=edit&id={{ oid }}" method="post">
+        {{ forms.render(form) }}
+        <div class="actions">
+        <input type="hidden" name="callback_url" value="/admin/categories">
+        <input type="submit" class="btn primary" value="Save">
+        </div>
+    </form>
+    </section>
+{% endblock %}

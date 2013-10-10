@@ -1,0 +1,25 @@
+{% extends "admin/layout.djhtml" %}
+
+{% block main_content %}
+<section>
+<h1>Categories Editor</h1>
+<table>
+<th>Name</th> <th>Creation Time</th>
+{% if categories is defined %}
+    {% for category in categories %}
+        <tr>
+            <td><a href="{{ category.url }}">({{ category.abbreviation }}) {{ category.name | title }}</a></td>
+            <td>{{ category.created_at.strftime('%H:%M %Y-%m-%d') }}</td>
+            <td>
+            <a class="btn primary" href="/admin/categories?action=remove&id={{ category.id }}">Remove</a>
+            <a class="btn primary" href="/admin/categories?action=edit&id={{ category.id }}">Edit</a>
+            </td>
+        </tr>
+    {% endfor %}
+{% endif %}
+</table>
+<form action="/admin/categories/new">
+        <input class="btn primary" type="submit" value="New">
+</form>
+    </section>
+{% endblock %}
