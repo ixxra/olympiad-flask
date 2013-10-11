@@ -1,0 +1,17 @@
+{% extends "admin/layout.djhtml" %}
+{% import "_forms.html" as forms %}
+
+{% block main_content %}
+    <section>
+<h1>{{ category.name }}</h1>
+<h2>Create new olympiad</h2>
+    <form action="/admin/categories/{{ category.id }}/add" method="post">
+        {{ forms.render(form) }}
+        <div class="actions">
+        <input type="hidden" name="callback_url" value="/admin/categories/{{ id }}">
+        <input type="submit" class="btn primary" value="Add">
+        </div>
+        <input type="datetime">
+    </form>
+    </section>
+{% endblock %}
