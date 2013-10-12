@@ -4,11 +4,22 @@
 <section>
 <h1><a href="{{ category.url }}">{{ category.name }} ({{ category.abbreviation }})</a></h1>
 <h2>Olympiads in this category</h2>
-<ul>
-{% for olympiad in category.groups %}
-<li>{{ olympiad }}</li>
+<table>
+<th>Number</th>
+<th>City</th>
+<th>Country</th>
+<th>Start Date</th>
+<th>End Date</th>
+{% for event in category.events %}
+<tr>
+<td>{{ event.number }}</td>
+<td>{{ event.city }}</td>
+<td>{{ event.country }}</td>
+<td>{{ event.start_date.strftime('%Y-%m-%d') }}</td>
+<td>{{ event.end_date.strftime('%Y-%m-%d') }}</td>
+</tr>
 {% endfor %}
-</ul>
+</table>
 <form action="/admin/categories/{{ category.id }}/add">
     <input type="submit" value="Add new Olympiad"  class="primary btn">
 </form>

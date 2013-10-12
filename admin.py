@@ -4,8 +4,8 @@ from flask.ext.mongoengine.wtf import model_form
 from server import app
 from flask.ext.login import login_required
 from auth import permission_required
-from models import OlympiadCategory
-import flask.ext.mongoengine.wtf
+from models import OlympiadCategory, Olympiad
+from wtforms.ext.dateutil.fields import DateField
 
 
 #@requires_auth
@@ -63,3 +63,38 @@ def create_category():
         #url_for('categories')
         return redirect(url)
     return render_template('admin/categories_new.html', form=form)
+
+
+@permission_required
+@login_required
+@app.route('/admin/categories/<oid>')
+def show_category(oid):
+    category = OlympiadCategory.objects.get_or_404(id=oid)
+    return render_template('admin/category_groups.html', category=category)
+
+
+@permission_required
+@login_required
+@app.route('/admin/categories/<oid>/add', methods=('GET', 'POSt'))
+def create_event(oid):
+    OlympiadForm = model_form(Olympiad)
+    OlympiadForm.start_date = DateField()
+    OlympiadForm.end_date = DateField()
+    form = OlympiadForm(request.form, csrf_enabled=False)
+    form.start_date.widget.input_type = 'date'
+    form.end_date.widget.input_type = 'date'
+    
+    if form.validate_on_submit():
+        category = OlympiadCategory.objects.get_or_404(id=oid)
+        new_event = Olympiad()
+        form.populate_obj(new_event)
+        category.events.append(new_event)
+        category.save()
+        url = request.form['callback_url']
+        return redirect(url)
+    
+    category = OlympiadCategory.objects.get_or_404(id=oid)
+    return render_template('admin/olympiad_new.html', category=category, form=form)
+
+
+

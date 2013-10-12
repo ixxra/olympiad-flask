@@ -27,14 +27,6 @@ class User(db.Document, UserMixin):
         return u
 
 
-class OlympiadCategory(db.Document):
-    created_at = db.DateTimeField(default=now(), required=True)
-    name = db.StringField(max_length=255, required=True)
-    abbreviation = db.StringField(max_length=10)
-    url = db.URLField()
-    logo = None
-
-
 class City(db.Document):
     created_at = db.DateTimeField(default=now(), required=True)
     name = db.StringField(max_length=255, required=True)
@@ -42,16 +34,27 @@ class City(db.Document):
     position = db.GeoPointField()
 
 
-class Olympiad(db.Document):
+class Olympiad(db.EmbeddedDocument):
     created_at = db.DateTimeField(default=now(), required=True)
-    category = db.ReferenceField(OlympiadCategory, required=True)
-    name = db.StringField(max_length=255, required=True)
-    city = db.ReferenceField(City)
-    logo = db.FileField()
+    number = db.IntField(min_value=1)
+    city = db.StringField(max_length=255, required=True)
+    country = db.StringField(max_length=255, required=True)
     start_date = db.DateTimeField(required=True)
     end_date = db.DateTimeField(required=True)
     file = None
-    contestants = [db.ReferenceField(User)]
+    logo = db.FileField()
+    #category = db.ReferenceField(OlympiadCategory, required=True)
+    #name = db.StringField(max_length=255, required=True)
+    #contestants = [db.ReferenceField(User)]
+
+
+class OlympiadCategory(db.Document):
+    created_at = db.DateTimeField(default=now(), required=True)
+    name = db.StringField(max_length=255, required=True)
+    abbreviation = db.StringField(max_length=10)
+    url = db.URLField()
+    events = db.ListField(db.EmbeddedDocumentField(Olympiad))
+    logo = None
 
 
 class Admin(db.Document):
