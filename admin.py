@@ -16,7 +16,7 @@ from wtforms.ext.dateutil.fields import DateField
 
 @permission_required
 @login_required
-@app.route('/admin/categories', methods=('GET', 'POST'))
+@app.route('/admin/categories/', methods=('GET', 'POST'))
 def admin_categories():
     action = request.args.get('action', '')
     oid = request.args.get('id', '')
@@ -75,7 +75,7 @@ def show_category(oid):
 
 @permission_required
 @login_required
-@app.route('/admin/categories/<oid>/add', methods=('GET', 'POSt'))
+@app.route('/admin/categories/<oid>/add', methods=('GET', 'POST'))
 def create_event(oid):
     OlympiadForm = model_form(Olympiad)
     OlympiadForm.start_date = DateField()
@@ -97,4 +97,30 @@ def create_event(oid):
     return render_template('admin/olympiad_new.html', category=category, form=form)
 
 
+@permission_required
+@login_required
+@app.route('/admin/categories/<oid>/edit/<int:enumber>', methods=('GET', 'POST'))
+def event_edit(oid, enumber):
+    olymp = OlympiadCategory.objects.get_or_404(id=oid)
+    event = olymp.events[enumber - 1]
+    
+    OlympiadForm = model_form(Olympiad)
+    OlympiadForm.start_date = DateField()
+    OlympiadForm.end_date = DateField()
+    
+    form = OlympiadForm(request.form, obj=event, csrf_enabled=False)
+    form.start_date.widget.input_type = 'date'
+    form.end_date.widget.input_type = 'date'
+    
+    if form.validate_on_submit():
+        return 'done!'
+    
+    return render_template('admin/olympiad_new.html', category=olymp, form=form)
+
+
+@permission_required
+@login_required
+@app.route('/admin/categories/<oid>/delete/<enumber>', methods=('GET', 'POST'))
+def event_delete(oid, enumber):
+    return request.method
 

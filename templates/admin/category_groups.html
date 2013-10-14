@@ -17,6 +17,14 @@
 <td>{{ event.country }}</td>
 <td>{{ event.start_date.strftime('%Y-%m-%d') }}</td>
 <td>{{ event.end_date.strftime('%Y-%m-%d') }}</td>
+<td>
+    <form action="/admin/categories/{{ category.id }}/edit/{{ event.number }}" method="get">
+        <input class="btn primary" type="submit" value="Edit">
+    </form>
+    <form action="/admin/categories/{{ category.id }}/delete/{{ event.number }}" method="post">
+        <input class="btn primary" type="submit" value="Delete">
+    </form>
+</td>
 </tr>
 {% endfor %}
 </table>
